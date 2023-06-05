@@ -16,6 +16,8 @@ module.exports = {
     extend: {
       colors: {
         'gris': '#1E2022',
+        'negrito': '#1A1A1B',
+        'negrito2': '#151515',
         'celestucho': '#d6e0f0',
         'celestucho2': '#c9d6df',
         'grisstacy': '#8d93ab',

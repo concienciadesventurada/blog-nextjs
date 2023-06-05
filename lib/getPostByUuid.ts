@@ -11,12 +11,21 @@ const query = gql`
       updatedAt
     }
   }
-`
+`;
 
 export default async function getPostByUuid(postUuid: string) {
-  const { data } = await getClient().query({ query, variables: { uuid: postUuid }});
+  const { data } = await getClient().query({
+    query,
+    variables: { uuid: postUuid },
+    context: {
+      fetchOptions: {
+        next: { revalidate: 60 },
+      },
+      cache: 'must-revalidate'
+    },
+  });
 
   if (!data.getPostByUuid) return {};
-  
+
   return data.getPostByUuid;
 }

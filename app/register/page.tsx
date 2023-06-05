@@ -1,40 +1,36 @@
-'use client';
+"use client";
 
-import React from 'react'
-import { useFormik } from 'formik';
+import React from "react";
+import { Formik, Form } from "formik";
+import InputField from "../components/InputField";
+import FormButton from "../components/FormButton";
 
-export default function Login() {
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      username: '',
-      password: ''
-    },
-    onSubmit: values => {
-        alert(JSON.stringify(values, null, 2));
-      }
-    });
-
+export default function Register() {
   return (
-    <div className='grid grid-cols-4'>
-      <form onSubmit={formik.handleSubmit}>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="email" className="border border-black"
-          onChange={formik.handleChange}
-          value={formik.values.email}
-        />
-        <label htmlFor="username">Username</label>
-        <input id="username" type="username" className="border border-black"
-          onChange={formik.handleChange}
-          value={formik.values.username}
-        />
-        <label htmlFor="password">Password</label>
-        <input id="password" type="password" className="border border-black"
-          onChange={formik.handleChange}
-          value={formik.values.password}
-        />
-        <button className='bg-celestucho'>Register</button>
-      </form>
+    <div className="flex text-gris">
+      <div className="h-screen w-1/6 flex flex-col justify-center items-center bg-blancucho">
+        <Formik
+          initialValues={{
+            email: "",
+            username: "",
+            password: "",
+          }}
+          onSubmit={(values, actions) => {
+            setTimeout(() => {
+              alert(JSON.stringify(values, null, 2));
+              actions.setSubmitting(false);
+            }, 1000);
+          }}
+        >
+          <Form className="flex flex-col">
+            <InputField type="email" name="email" label="Email" />
+            <InputField type="text" name="username" label="Username" />
+            <InputField type="password" name="password" label="Password" />
+            <FormButton text="Register" />
+          </Form>
+        </Formik>
+      </div>
+      <div className="w-5/6">a</div>
     </div>
-  )
+  );
 }

@@ -1,21 +1,31 @@
-import React from 'react';
-import { useField } from 'formik';
-
-//TODO: Properly refactor and make reusable client side
+import React from "react";
+import { useField } from "formik";
 
 interface InputFieldProps {
-  email: string;
+  type: string;
+  name: string;
+  label: string;
+  email?: string;
+  username?: string;
+  password?: string;
+  title?: string;
+  content?: string;
 }
 
-const InputField: React.FC<InputFieldProps> = ({...props}) => {
-  const [field, meta] = useField(props.email);
+const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
 
   return (
     <>
-      <input {...field} {...props}  />
-      {meta.error && meta.touched && <div>{meta.error}</div>}
+      <label>{label}</label>
+      <input
+        {...field}
+        {...props}
+        className="rounded-md h-10 mb-4 focus:outline outline-dorado"
+      />
+      {meta.error && meta.touched ? <div>{meta.error}</div> : null}
     </>
-  )
-}
+  );
+};
 
-export default InputField
+export default InputField;

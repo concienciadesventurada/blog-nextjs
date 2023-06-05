@@ -2,10 +2,15 @@ import { gql } from "@apollo/client";
 import { getClient } from "@/lib/apolloClient";
 
 const query = gql`
-  query Query {
+  query getAllPosts {
     getPosts {
       uuid
       title
+      content
+      abstract
+      coverImg
+      updatedAt
+      createdAt
     }
   }
 `;
@@ -22,6 +27,7 @@ export default async function getAllPosts() {
   });
 
   if (!data.getPosts) return {};
+
 
   return data.getPosts;
 }
