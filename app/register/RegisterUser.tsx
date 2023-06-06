@@ -5,13 +5,17 @@ import { Formik, Form } from "formik";
 import InputField from "../components/InputField";
 import FormButton from "../components/FormButton";
 import { gql, useMutation } from "@apollo/client";
+import { toErrorMap } from "@/lib/toErrorMap";
 
 // TODO: Check how to implement codegen accordinly for typechecking
-// FIX: Error sending the req, not complying with parameters expected with REGISTER_NEW_USER
 
 const REGISTER_NEW_USER = gql`
   mutation Register($options: RegisterNewUserInput!) {
     register(options: $options) {
+      user {
+        uuid
+        username
+      }
       errors {
         field
         message
@@ -21,6 +25,7 @@ const REGISTER_NEW_USER = gql`
 `;
 
 export default function RegisterUser() {
+  // TODO: Implement uses for data, loading and error
   const [register, { data, loading, error }] = useMutation(REGISTER_NEW_USER);
 
   return (
@@ -30,9 +35,18 @@ export default function RegisterUser() {
         username: "",
         password: "",
       }}
-      onSubmit={async (values) => {
-        const response = await register({ variables: values });
-        console.log(response);
+      onSubmit={async (values, { setErrors }) => {
+        // TODO: Refactor properly and make sure types are catched by LSP
+        const response = await register({ variables: { options: values } });
+
+        if (response.data.login.user) {
+          console.log(response.data.register.user);
+        }
+
+        if (response.data.register.errors) {
+          console.log(response.data.register.errors);
+          setErrors(toErrorMap(response.data.register.errors));
+        }
       }}
     >
       <Form className="flex flex-col">
