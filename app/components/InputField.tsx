@@ -5,6 +5,7 @@ interface InputFieldProps {
   type: string;
   name: string;
   label: string;
+  placeholder?: string;
   email?: string;
   username?: string;
   password?: string;
